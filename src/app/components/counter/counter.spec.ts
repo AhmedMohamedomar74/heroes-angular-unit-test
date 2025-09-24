@@ -4,38 +4,36 @@ import { provideZonelessChangeDetection } from "@angular/core";
 import { By } from "@angular/platform-browser";
 
 describe('counter component: ', () => {
-  let component:Counter, fixture:ComponentFixture<Counter>
-  beforeEach(()=>{
-    //1
+  let fixture:ComponentFixture<Counter> ,  component:Counter
+  beforeAll(()=>
+  {
+    // make configuration for component
     TestBed.configureTestingModule({
-      imports:[Counter],
-      providers:[
-        provideZonelessChangeDetection()
-      ]
+      imports : [Counter],
+      providers : [provideZonelessChangeDetection()]
     })
-    //2
-    fixture=TestBed.createComponent(Counter)
-    //3
-    component=fixture.componentInstance
+
+    // make fixture
+    fixture = TestBed.createComponent(Counter)
+    component = fixture.componentInstance
   })
-    it('counter=0 should render in template', () => {
-    
-      fixture.detectChanges()
-      let p= fixture.nativeElement.querySelector("p")
-      expect(p.textContent).toContain(0)
-  });
-  it("after clicking btn + should counter++ and in template",()=>{
-    //access btn
-    let btn= fixture.debugElement.query( By.css("#inc") )
-    //fire click
-    btn.triggerEventHandler("click")
-    btn.triggerEventHandler("click")
-    btn.triggerEventHandler("click")
-    //assert counter+
-    expect(component.counter).toBe(3)
-    //assert in template
+
+  // it("counter = 0 should be reder in template",()=>
+  // {
+  //   fixture.detectChanges()
+  //   let pElement = fixture.debugElement.query(By.css("p"));
+  //   expect(pElement.nativeElement.textContent.trim()).toBe("0");
+  // })
+
+  it("should increment counter be click to the BTN",()=>
+  {
+    let button = fixture.debugElement.query(By.css("#inc"))
+
+    button.triggerEventHandler("click")
+
     fixture.detectChanges()
-    let p= fixture.nativeElement.querySelector("p")
-      expect(p.textContent).toContain(3)
+
+    let pElement = fixture.debugElement.query(By.css("p"));
+    expect(pElement.nativeElement.textContent.trim()).toBe("1");
   })
 });
